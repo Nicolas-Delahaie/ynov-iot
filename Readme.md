@@ -10,7 +10,7 @@ Ce projet utilise un **Arduino Uno** pour mesurer la **température et l'humidit
   - 🟢 **Vert** : Humidité normale (30% - 60%)  
   - 🔵 **Bleu** : Air humide (> 60%)
   - **LED Bleu**
-  - **LES Rouge**
+  - **LED Rouge**
 
 ## 🔗 Lien vers le code et le prototype (Schéma du montage) Wokwi
 🔗 **Code source + Simulation Wokwi** : [Wokwi Projet](https://wokwi.com/projects/422783187973623809)
