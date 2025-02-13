@@ -1,48 +1,63 @@
-# Projet Arduino : Capteur DHT11 + LCD 16x2 + LED RGB + LED MONOCOULEUR
+# Projet Arduino : agriculture autonome
+
+> **Équipe Hanse Mance Mans**  
+> Nicolas DELAHAIE  
+> Émile RICORDEL  
+> Anas DAOUI  
+> Clément ANDRIEU
 
 ## Description du projet
 
-[Word de présentation](https://auvencecom-my.sharepoint.com/:w:/g/personal/nicolas_delahaie_ynov_com/EWxNXPk6Hf5GhAFUDsCuzskBGGFIuqWOAZh5HHxPKcpJHA?e=mTtp2u)
+[Document de présentation du projet (Word)](https://auvencecom-my.sharepoint.com/:w:/g/personal/nicolas_delahaie_ynov_com/EWxNXPk6Hf5GhAFUDsCuzskBGGFIuqWOAZh5HHxPKcpJHA?e=mTtp2u)
 
-Ce projet utilise un **Arduino Uno** pour mesurer la **température et l'humidité** via un **capteur DHT11**, afficher les valeurs sur un **écran LCD 16x2 en mode parallèle**, et changer la couleur d'une **LED RGB** en fonction du taux d'humidité.
-
-🔹 **Capteur DHT11** → Mesure la température et l'humidité.  
-🔹 **LCD 16x2 (mode parallèle)** → Affiche les données.  
-🔹 **LED RGB** → Change de couleur en fonction de l'humidité :
+Ce projet utilise un **Arduino Uno** pour mesurer la **température et l'humidité** via un **capteur DHT11**, afficher les valeurs sur un **écran LCD 16x2 en mode parallèle**, et changer la couleur d'une **LED RGB** en fonction du taux d'humidité :
 
 - 🔴 **Rouge** : Air sec (< 30%)
 - 🟢 **Vert** : Humidité normale (30% - 60%)
 - 🔵 **Bleu** : Air humide (> 60%)
-- **LED Bleu**
-- **LED Rouge**
 
-## 🔗 Lien vers le code et le prototype (Schéma du montage) Wokwi
+Pour l'instant, les LEDs peuvent être allumées ou éteintes manuellement via les boutons correspondants sur la télécommande, comme on peut le voir sur cette [vidéo de démonstration](demonstration.mp4).
 
-🔗 **Code source + Simulation Wokwi** : [Wokwi Projet](https://wokwi.com/projects/422783187973623809)
+### Documentation
 
-## 📌 Matériel nécessaire
+Les diagrammes sont trouvables dans le dossier `docs/`. Les fichiers avec l'extension `.drawio` peuvent être ouverts via l'extension `hediet.vscode-drawio` sur VSCode.
 
-- **Arduino Uno**
-- **Capteur DHT11**
-- **Écran LCD 16x2 (mode parallèle)**
-- **Potentiomètre 10kΩ** (pour le contraste du LCD)
-- **LED RGB (anode ou cathode commune)**
-- **2 LED Rouge et Bleu**
-- **IRReceiver et sa télécommande**
-- **Résistances 220Ω** (pour la LED RGB)
+## Matériel utilisé
+
+[Schema de l'installation](schema_arduino.png)
+
 - **Câbles et breadboard**
-- **Raspberry**
-  - écran, souris, clavier, antenne LoRa
+- **Arduino Uno** avec ses équipements :
+  - Capteurs :
+    - DHT11 (humidité et température)
+  - Pilotage :
+    - Recepteur infrarouge (IRReceiver)
+    - Télécommande
+  - Affichage :
+    - Écran LCD 16x2 (mode parallèle)
+    - Potentiomètre 10kΩ (pour le contraste du LCD)
+  - Éclairage :
+    - 1 LED RGB (anode ou cathode commune)
+    - 1 LED rouge
+    - 1 LED bleue
+    - 2 résistances 220Ω
+- **Raspberry** avec ses équipements :
+  - Écran HDMI
+  - Souris
+  - Clavier
+  - Antenne LoRa
 
-## Vidéo de présentation des branchements réalisés
+## Installation
 
-- **LED RGB à gauche qui est lié au taux d'humidité (Rouge, Vert et Bleu)**
-- **2 LED de couleurs qui réagissent lorsqu'on appuie sur le boutton 1 ou 2 de la télécommande**
+Le code source est présent sur la plateforme en ligne Wokwi, qui permet de simuler le circuit electronique et de coder directement dedans. [Projet Wokwi](https://wokwi.com/projects/422783187973623809)
 
-## ⚠️ Problèmes possibles et solutions
+Lorsque le code est bon, il faut ensuite le copier sur la carte physique.
 
-### 1️⃣ **Le projet ne démarre pas immédiatement sur Wokwi**
+## Problèmes rencontrés et solutions
 
-- Wokwi peut afficher l’erreur **"Server Failed: Timeout"**.
-- **Solution** : Redémarrer plusieurs fois la simulation.
-- **Laisser tourner quelques secondes** pour que la plateforme initialise tout correctement.
+### Le projet ne démarre pas immédiatement sur Wokwi
+
+- **Erreur :** Wokwi peut afficher l’erreur `Server Failed: Timeout`.
+- **Solutions :**
+  - Redémarrer plusieurs fois la simulation.
+  - Laisser tourner quelques secondes pour que la plateforme initialise tout correctement.
