@@ -49,9 +49,15 @@ Les diagrammes sont trouvables dans le dossier `docs/`. Les fichiers avec l'exte
 
 ## Installation
 
+### Arduino (capteurs)
+
 Le code source est présent sur la plateforme en ligne Wokwi, qui permet de simuler le circuit electronique et de coder directement dedans. [Projet Wokwi](https://wokwi.com/projects/422783187973623809)
 
-Lorsque le code est bon, il faut ensuite le copier sur la carte physique.
+Lorsque le code est fonctionnel, il faut ensuite le copier sur la carte physique.
+
+### Raspberry (serveur publique)
+
+Pour lancer le serveur publique sur la Raspberry, il suffit de créer un container Docker via `docker compose up -d` à la racine du projet.
 
 ## Problèmes rencontrés et solutions
 
