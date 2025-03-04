@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   influxdb:
     image: influxdb:latest
@@ -12,5 +14,23 @@ services:
       DOCKER_INFLUXDB_INIT_PASSWORD: admin123
       DOCKER_INFLUXDB_INIT_ORG: hanse-mance-mans
       DOCKER_INFLUXDB_INIT_BUCKET: my_bucket
+
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"  # Port MQTT
+      - "9001:9001"  # WebSockets (si besoin)
+    volumes:
+      - mosquitto_config:/mosquitto/config
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    environment:
+      - TZ=Europe/Paris
+
 volumes:
   influxdb_data:
+  mosquitto_config:
+  mosquitto_data:
+  mosquitto_log:
