@@ -1,4 +1,4 @@
-# Projet Arduino : agriculture autonome
+# 📌 Documentation du Projet IoT - Surveillance d’Humidité avec MQTT
 
 > **Équipe Hanse Mance Mans**  
 > Nicolas DELAHAIE  
@@ -6,64 +6,118 @@
 > Anas DAOUI  
 > Clément ANDRIEU
 
-## Description du projet
 
-[Document de présentation du projet (Word)](https://auvencecom-my.sharepoint.com/:w:/g/personal/nicolas_delahaie_ynov_com/EWxNXPk6Hf5GhAFUDsCuzskBGGFIuqWOAZh5HHxPKcpJHA?e=mTtp2u)
+## **1️⃣ Présentation du Projet**
+Ce projet IoT utilise **un capteur DHT11** pour mesurer l’humidité et la transmet via **un ESP8266** à un **broker MQTT**. Un **ESP32** reçoit ensuite ces données et ajuste une **LED RGB** en fonction du niveau d’humidité.
 
-Ce projet utilise un **Arduino Uno** pour mesurer la **température et l'humidité** via un **capteur DHT11**, afficher les valeurs sur un **écran LCD 16x2 en mode parallèle**, et changer la couleur d'une **LED RGB** en fonction du taux d'humidité :
+### **🛠️ Composants utilisés :**
+- **1 Arduino** : Lit l’humidité avec le capteur DHT11 et l’envoie à l’ESP8266 via UART.
+- **1 ESP8266** : Reçoit les données de l’Arduino et les transmet au **broker MQTT** via WiFi.
+- **1 Ordinateur avec un broker MQTT local** : Réception des messages et diffusion aux abonnés.
+- **1 ESP32** : Reçoit les données MQTT et contrôle une **LED RGB** en fonction du niveau d’humidité.
+- **1 Capteur DHT11** : Mesure l’humidité.
+- **1 LED RGB** : Indique visuellement l’état d’humidité.
+- **Alimentation (USB)** : Fournit l’énergie aux composants.
 
-- 🔴 **Rouge** : Air sec (< 30%)
-- 🟢 **Vert** : Humidité normale (30% - 60%)
-- 🔵 **Bleu** : Air humide (> 60%)
+---
 
-Pour l'instant, les LEDs peuvent être allumées ou éteintes manuellement via les boutons correspondants sur la télécommande, comme on peut le voir sur cette [vidéo de démonstration](demonstration.mp4).
+## **2️⃣ Schéma de l’Architecture IoT**
 
-### Documentation
+### **📡 Communication entre les composants :**
+1. L’Arduino mesure **l’humidité** via le capteur **DHT11**.
+2. Il envoie les valeurs **par communication série** à l’ESP8266.
+3. L’ESP8266 **publie** ces valeurs sur **le broker MQTT local (ordinateur)**.
+4. L’ESP32 **s’abonne** aux données et ajuste la **LED RGB** selon l’humidité.
 
-Les diagrammes sont trouvables dans le dossier `docs/`. Les fichiers avec l'extension `.drawio` peuvent être ouverts via l'extension `hediet.vscode-drawio` sur VSCode.
+```mermaid
+graph TD;
+    Arduino -->|UART| ESP8266;
+    ESP8266 -->|WiFi MQTT Publish| BrokerMQTT;
+    BrokerMQTT -->|WiFi MQTT Subscribe| ESP32;
+    ESP32 -->|PWM| LED_RGB;
+```
 
-## Matériel utilisé
+---
 
-[Schema de l'installation](schema_arduino.png)
+## **3️⃣ Configuration des Circuits**
+### **📌 Circuit Arduino (Capteur DHT11)**
+- **DHT11 (Humidité) → Arduino**
+  - VCC → **5V**
+  - GND → **GND**
+  - Data → **D3**
+- **Communication avec l’ESP8266** :
+  - TX Arduino → RX ESP8266
+  - RX Arduino → TX ESP8266
+  - GND commun entre les deux
 
-- **Câbles et breadboard**
-- **Arduino Uno** avec ses équipements :
-  - Capteurs :
-    - DHT11 (humidité et température)
-  - Pilotage :
-    - Recepteur infrarouge (IRReceiver)
-    - Télécommande
-  - Affichage :
-    - Écran LCD 16x2 (mode parallèle)
-    - Potentiomètre 10kΩ (pour le contraste du LCD)
-  - Éclairage :
-    - 1 LED RGB (anode ou cathode commune)
-    - 1 LED rouge
-    - 1 LED bleue
-    - 2 résistances 220Ω
-- **Raspberry** avec ses équipements :
-  - Écran HDMI
-  - Souris
-  - Clavier
-  - Antenne LoRa
+### **📌 Circuit ESP8266 (WiFi + MQTT)**
+- **Connexion WiFi**
+  - Se connecte au réseau WiFi
+  - Envoie les données MQTT au broker local sur l’ordinateur
+- **Broches utilisées :**
+  - RX/TX pour communiquer avec l’Arduino
+  - WiFi activé pour MQTT
 
-## Installation
+### **📌 Circuit ESP32 (Actionneur LED RGB)**
+- **Abonnement au topic MQTT**
+  - ESP32 récupère les données de l’humidité
+  - Contrôle une LED RGB selon les seuils :
+    - Rouge (humidité faible < 30%)
+    - Vert (humidité normale 30-60%)
+    - Bleu (humidité élevée > 60%)
+- **Broches de la LED RGB :**
+  - Rouge → **GPIO16**
+  - Vert → **GPIO17**
+  - Bleu → **GPIO18**
 
-### Arduino (capteurs)
+---
 
-Le code source est présent sur la plateforme en ligne Wokwi, qui permet de simuler le circuit electronique et de coder directement dedans. [Projet Wokwi](https://wokwi.com/projects/422783187973623809)
+## **4️⃣ Configuration et Démarrage du Projet**
+### **📌 Étape 1 : Démarrer le Broker MQTT sur l’ordinateur**
+1. Ouvrir un terminal et lancer Mosquitto (si installé) :
+   ```sh
+   mosquitto -v
+   ```
+2. Vérifier qu’il écoute bien sur le port `1883`.
 
-Lorsque le code est fonctionnel, il faut ensuite le copier sur la carte physique.
+### **📌 Étape 2 : Vérifier la réception des messages**
+Dans un terminal, abonne-toi aux topics MQTT pour voir les messages :
+```sh
+mosquitto_sub -h localhost -t "capteur/humidity" -v
+```
 
-### Raspberry (serveur publique)
+### **📌 Étape 3 : Démarrer les Microcontrôleurs**
+1. **Téléverser le code dans l’Arduino** (Capteur DHT11).  
+2. **Téléverser le code dans l’ESP8266** (Transmetteur WiFi MQTT).  
+3. **Téléverser le code dans l’ESP32** (Récepteur + LED RGB).  
 
-Pour lancer le serveur publique sur la Raspberry, il suffit de créer un container Docker via `docker compose up -d` à la racine du projet.
+### **📌 Étape 4 : Vérifier le bon fonctionnement**
+1. Observer les messages dans le terminal (`mosquitto_sub`).
+2. Observer la LED RGB sur l’ESP32.
+3. Ajuster l’humidité (ex: souffler sur le capteur) et vérifier la couleur de la LED.
 
-## Problèmes rencontrés et solutions
+---
 
-### Le projet ne démarre pas immédiatement sur Wokwi
+## **5️⃣ Déplacement du Broker MQTT sur le Raspberry Pi**
+Lorsque le Raspberry Pi est prêt, il peut remplacer le broker MQTT de l’ordinateur.
+1. **Installer Mosquitto sur le Raspberry Pi :**
+   ```sh
+   sudo apt update
+   sudo apt install mosquitto mosquitto-clients
+   ```
+2. **Modifier l’adresse MQTT dans les codes des ESP** (`mqtt_server = "192.168.X.X"` avec l’IP du Raspberry).
+3. **Redémarrer tout et tester la communication.**
 
-- **Erreur :** Wokwi peut afficher l’erreur `Server Failed: Timeout`.
-- **Solutions :**
-  - Redémarrer plusieurs fois la simulation.
-  - Laisser tourner quelques secondes pour que la plateforme initialise tout correctement.
+---
+
+## **📌 Conclusion**
+Ce projet met en place **une architecture IoT basée sur MQTT** avec **capteurs**, **WiFi**, et **actionneurs**. Il peut être facilement amélioré en ajoutant une interface web ou un stockage de données.
+
+📌 **Si un problème survient, vérifier en premier :**
+✅ **Le WiFi fonctionne ?**  
+✅ **Le Broker MQTT reçoit bien les messages ?**  
+✅ **Les ESP sont bien abonnés et publient les bonnes valeurs ?**  
+
+---
+
+🚀 **Projet terminé ! Tu peux maintenant tout mettre sur GitHub !** 🎉
