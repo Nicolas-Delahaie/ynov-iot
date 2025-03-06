@@ -23,7 +23,7 @@ services:
       - "1883:1883"  # Port MQTT
       - "9001:9001"  # WebSockets (si besoin)
     volumes:
-      - mosquitto_config:/mosquitto/config
+      - ./mosquitto-config:/mosquitto/config
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
     environment:
