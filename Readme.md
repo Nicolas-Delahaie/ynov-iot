@@ -72,10 +72,6 @@ graph TD;
 
 ---
 
-
-## **📌 Conclusion**
-Ce projet met en place **une architecture IoT basée sur MQTT** avec **capteurs**, **WiFi**, et **actionneurs**. Il peut être facilement amélioré en ajoutant une interface web ou un stockage de données.
-
 📌 **Si un problème survient, vérifier en premier :**
 ✅ **Le WiFi fonctionne ?**  
 ✅ **Le Broker MQTT reçoit bien les messages ?**  
