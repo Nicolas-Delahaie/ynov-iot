@@ -38,6 +38,14 @@ services:
       - python
       - -u
       - /app/main.py
+      
+  node:
+    image: node:latest
+    volumes:
+      - ./node:/app 
+    command: sh -c "npm i && node /app/server.js"
+    depends_on:
+      - python
 
 volumes:
   influxdb_data:
