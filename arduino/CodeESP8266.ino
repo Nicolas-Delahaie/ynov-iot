@@ -6,7 +6,7 @@ const char* ssid = "monwifi";
 const char* password = "azertyui";
 
 // Configuration MQTT
-const char* mqtt_server = "192.168.137.56";  // Adresse de ton broker MQTT
+const char* mqtt_server = "rasp.local";  // Adresse de ton broker MQTT
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -48,9 +48,26 @@ void loop() {
   client.loop();
 
   if (Serial.available()) {
-    String data = Serial.readStringUntil('\n');
-    Serial.print("Reçu de l'Arduino : ");
-    Serial.println(data);  // Affiche les données reçues de l'Arduino
-    client.publish("capteur/humidity", data.c_str());  // Publier sur le broker MQTT
+    String data = Serial.readStringUntil('\n');  // Lire les données de l'Arduino
+    data.trim();  // Supprimer les espaces ou retours à la ligne inutiles
+    Serial.print("🔹 Reçu de l'Arduino : ");
+    Serial.println(data);
+
+    if (data.startsWith("Humidité :")) {
+      String humidityValue = data.substring(data.indexOf(":") + 1);
+      humidityValue.trim();
+      Serial.print("📡 Envoi MQTT (humidité) : ");
+      Serial.println(humidityValue);
+      client.publish("capteur/humidity", humidityValue.c_str());  // Publier l'humidité
+
+    } else if (data.startsWith("Température :")) {
+      String temperatureValue = data.substring(data.indexOf(":") + 1);
+      temperatureValue.trim();
+      Serial.print("📡 Envoi MQTT (température) : ");
+      Serial.println(temperatureValue);
+      client.publish("capteur/temperature", temperatureValue.c_str());  // Publier la température
+    } else {
+      Serial.println("⚠️ Format inconnu, message ignoré.");
+    }
   }
 }

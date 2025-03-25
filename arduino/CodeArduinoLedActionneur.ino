@@ -6,7 +6,7 @@ const char* ssid = "monwifi";
 const char* password = "azertyui";
 
 // Configuration du Broker MQTT
-const char* mqtt_server = "192.168.137.56"; // Adresse IP du serveur MQTT
+const char* mqtt_server = "rasp.local";  // Adresse IP du serveur MQTT
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -59,7 +59,7 @@ void reconnect() {
     Serial.print("🔄 Connexion MQTT...");
     if (client.connect("ESP32_Receiver")) {
       Serial.println("✅ Connecté !");
-      client.subscribe("capteur/humidity"); // S'abonne au topic "capteur/humidite"
+      client.subscribe("capteur/humidity");  // S'abonne au topic "capteur/humidite"
     } else {
       Serial.print("❌ Échec, code erreur : ");
       Serial.print(client.state());
@@ -83,8 +83,8 @@ void callback(char* topic, byte* payload, unsigned int length) {
   // Extraire uniquement la valeur numérique après "Humidité : "
   int index = message.indexOf(":");
   if (index != -1) {
-    message = message.substring(index + 1); // Garde uniquement ce qui est après ":"
-    message.trim(); // Supprime les espaces inutiles
+    message = message.substring(index + 1);  // Garde uniquement ce qui est après ":"
+    message.trim();                          // Supprime les espaces inutiles
   }
 
   // Convertir en float
@@ -101,17 +101,16 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   // Modifier la couleur de la LED en fonction de l'humidité
   if (humidity < 30) {
-    setColor(255, 0, 0); // Rouge si humidité < 30%
+    setColor(255, 0, 0);  // Rouge si humidité < 30%
     Serial.println("🚨 Humidité trop faible, LED rouge.");
   } else if (humidity >= 30 && humidity < 60) {
-    setColor(0, 255, 0); // Vert si humidité entre 30% et 60%
+    setColor(0, 255, 0);  // Vert si humidité entre 30% et 60%
     Serial.println("✅ Humidité normale, LED verte.");
   } else {
-    setColor(0, 0, 255); // Bleu si humidité > 60%
+    setColor(0, 0, 255);  // Bleu si humidité > 60%
     Serial.println("💦 Humidité élevée, LED bleue.");
   }
 }
-
 
 // Fonction pour changer la couleur de la LED RGB
 void setColor(int redValue, int greenValue, int blueValue) {

@@ -15,8 +15,9 @@ void loop() {
 
   if (!isnan(temperature) && !isnan(humidity)) {
     // Envoi des données sur le port série
-    // Serial.print("Température : ");
-    // Serial.print(temperature);
+    Serial.print("Température : ");
+    Serial.print(temperature);
+    Serial.print("\n");
     Serial.print("Humidité : ");
     Serial.println(humidity);
   } else {
