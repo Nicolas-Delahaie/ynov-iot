@@ -27,6 +27,5 @@ function broadcastMessage() {
 
 // Envoie un message toutes les 5 secondes
 setInterval(broadcastMessage, 5000);
-setInterval(test, 5000);
 
 console.log('Serveur WebSocket démarré sur ws://localhost:8080');
