@@ -2,7 +2,7 @@ services:
   influxdb:
     image: influxdb:latest
     ports:
-      - "80:8086"
+      - "8086:8086"
     volumes:
       - influxdb_data:/var/lib/influxdb2
     environment:
@@ -40,12 +40,15 @@ services:
       - /app/main.py
 
   web:
-    image: node:latest
+    image: node:latest #TODO : Dockerfile pour le npm i avec le bon user
     volumes:
       - ./web:/app
+    working_dir: /app
     command: sh -c "npm i && node /app/server.js"
     depends_on:
       - python
+    ports:
+      - "80:8080"
 
 volumes:
   influxdb_data:

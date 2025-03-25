@@ -99,9 +99,61 @@ Le code source est présent sur la plateforme en ligne Wokwi, qui permet de simu
 
 Lorsque le code est fonctionnel, il faut ensuite le copier sur la carte physique.
 
-### Raspberry (serveur publique)
+### Raspberry Pi (serveur public)
 
-Pour lancer le serveur publique sur la Raspberry, il suffit de créer un container Docker via `docker compose up -d` à la racine du projet.
+#### Démarrage
+
+- Lors de l’allumage, la LED **verte** doit clignoter de manière **irrégulière** pendant le boot : cela indique que le système fonctionne normalement.
+- Si la LED **rouge** est allumée ou reste fixe, cela signifie que l’alimentation est correcte.
+- Si la LED **verte reste figée**, cela peut indiquer un problème avec la carte SD. Vérifiez qu’elle est bien flashée.
+
+#### Connexion au réseau
+
+1. Allumez la Raspberry Pi.
+2. Connectez-la au réseau Wi-Fi souhaité.
+3. Attribuez un nom à la Raspberry pour éviter d’utiliser son adresse IP :
+   ```bash
+   sudo nmtui
+   ```
+   → Allez dans **Set system hostname**, puis définissez un nom comme `rasp`.
+
+#### Connexion SSH
+
+- Assurez-vous que votre ordinateur est connecté au **même réseau local** que la Raspberry.
+- Connexion SSH classique :
+  ```bash
+  ssh rasp@rasp.local
+  ```
+
+#### Déploiement du projet
+
+Pour synchroniser le contenu du dossier `raspberry/` dans le dossier `/home/rasp/ynov-iot/` sur la Raspberry :
+
+```bash
+rsync -avz ./raspberry/ rasp@rasp.local:/home/rasp/ynov-iot/
+```
+
+> Attention au `/` final sur `raspberry/` : il permet de copier le **contenu** du dossier sans recréer le dossier lui-même.
+
+#### Lancer le serveur public
+
+Une fois connecté à la Raspberry, placez-vous dans le dossier du projet, puis lancez :
+
+```bash
+docker compose up -d
+```
+
+Cela démarre le serveur en arrière-plan via Docker.
+
+#### Connexion automatique (sans mot de passe)
+
+Pour éviter de ressaisir votre mot de passe à chaque connexion SSH :
+
+```bash
+ssh-copy-id rasp@rasp.local
+```
+
+Cela enregistre votre clé publique dans la Raspberry et active la connexion SSH sans mot de passe.
 
 ## Problèmes rencontrés
 
