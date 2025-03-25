@@ -34,7 +34,10 @@ services:
     depends_on:
       - influxdb
       - mosquitto
-    # command: ["python", "MosquittoConnection.py"]
+    command:
+      - python
+      - -u
+      - /app/main.py
 
 volumes:
   influxdb_data:
