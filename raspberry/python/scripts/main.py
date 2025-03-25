@@ -6,6 +6,7 @@ def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connecté avec succès au broker MQTT.")
         client.subscribe("capteur/humidity")
+        client.subscribe("capteur/temperature")
     else:
         print(f"Échec de la connexion, code de retour : {rc}. Cela peut être dû à un problème de réseau ou de configuration du broker.")
 
@@ -26,7 +27,7 @@ def on_disconnect(client, userdata, rc):
         print("Déconnexion propre du broker.")
 
 # Configuration du client MQTT
-BROKER = "192.168.137.56"  # Remplace par l'adresse de ton broker
+BROKER = "rasp.local"  # Remplace par l'adresse de ton broker
 PORT = 1883
 
 client = mqtt.Client()
