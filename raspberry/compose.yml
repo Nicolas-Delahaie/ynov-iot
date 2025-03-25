@@ -38,11 +38,11 @@ services:
       - python
       - -u
       - /app/main.py
-      
-  node:
+
+  web:
     image: node:latest
     volumes:
-      - ./node:/app 
+      - ./web:/app
     command: sh -c "npm i && node /app/server.js"
     depends_on:
       - python
