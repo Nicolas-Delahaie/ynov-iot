@@ -130,13 +130,9 @@ ssh rasp@rasp.local
 
 #### Déploiement du projet
 
-Pour synchroniser le contenu du dossier `raspberry/` dans le dossier `/home/rasp/ynov-iot/` sur la Raspberry :
+Pour synchroniser le code dans la Raspberry, il faut installer Git dessus via : `sudo apt install git-all`.
 
-```bash
-rsync -avz ./raspberry/ rasp@rasp.local:/home/rasp/ynov-iot/
-```
-
-> Attention au `/` final sur `raspberry/` : il permet de copier le **contenu** du dossier sans recréer le dossier lui-même.
+Ensuite on doit cloner le projet avec : `git clone https://github.com/Nicolas-Delahaie/ynov-iot`
 
 #### Lancer le serveur public
 

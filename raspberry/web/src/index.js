@@ -1,7 +1,7 @@
-const socket = new WebSocket(`ws://${window.location.hostname}:8080`);
+const backend = new WebSocket(`ws://${window.location.hostname}:8080`);
 
-socket.onopen = () => console.log("Connecté au serveur WebSocket");
-socket.onmessage = (event) => {
+backend.onopen = () => console.log("Connecté au serveur WebSocket");
+backend.onmessage = (event) => {
   try {
     const data = JSON.parse(event.data);
     updateOrCreateCard(data.topic, data.message);
@@ -9,7 +9,7 @@ socket.onmessage = (event) => {
     console.error("Erreur de parsing JSON :", error);
   }
 };
-socket.onclose = () => console.log("Déconnecté du serveur");
+backend.onclose = () => console.log("Déconnecté du serveur");
 
 function updateOrCreateCard(topic, value) {
   let card = document.getElementById(`card-${topic}`);
