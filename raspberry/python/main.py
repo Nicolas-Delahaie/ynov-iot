@@ -28,6 +28,7 @@ def on_connect(client, userdata, flags, rc):
         print("Connecté avec succès au broker MQTT.")
         client.subscribe("capteur/humidity")
         client.subscribe("capteur/temperature")
+        client.subscribe("capteur/distance")
     else:
         print(f"Échec de la connexion, code de retour : {rc}")
 

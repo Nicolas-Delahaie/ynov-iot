@@ -6,8 +6,25 @@ server.on("connection", (socket) => {
 
   socket.on("message", (message) => {
     console.log(`Message reçu : ${message}`);
-    // Répondre au client
-    socket.send(`Serveur: ${message}`);
+    
+    let parsedMessage;
+    try {
+        parsedMessage = JSON.parse(message);
+    } catch (error) {
+        console.error("Erreur de parsing du message reçu :", error);
+        return;
+    }
+    
+    const formattedMessage = JSON.stringify({
+        topic: parsedMessage.topic,
+        message: parsedMessage.message
+    });
+
+    server.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(formattedMessage);
+        }
+    });
   });
 
   socket.on("close", () => {
