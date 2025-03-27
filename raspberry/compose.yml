@@ -29,15 +29,9 @@ services:
 
   python:
     build: ./python
-    volumes:
-      - ./python/scripts:/app
     depends_on:
       - influxdb
       - mosquitto
-    command:
-      - python
-      - -u
-      - /app/main.py
 
   web:
     image: node:latest #TODO : Dockerfile pour le npm i avec le bon user
