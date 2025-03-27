@@ -46,7 +46,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./web/index.html:/usr/share/nginx/html/index.html:ro
+      - ./web/src:/usr/share/nginx/html:ro
       - ./web/configs:/etc/nginx/conf.d:ro
     depends_on:
       - backend
