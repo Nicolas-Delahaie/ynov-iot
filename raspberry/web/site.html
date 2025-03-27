@@ -46,7 +46,7 @@
     <div class="card-container" id="output"></div>
 
     <script>
-        const socket = new WebSocket("ws://localhost:8080");
+        const socket = new WebSocket("ws://192.168.137.164:80");
 
         socket.onopen = () => console.log("Connecté au serveur WebSocket");
         socket.onmessage = event => updateOrCreateCard(event.data);
