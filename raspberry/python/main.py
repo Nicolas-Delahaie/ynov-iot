@@ -4,11 +4,11 @@ import json
 import time
 
 # Configuration du broker MQTT
-BROKER = "rasp.local"
+BROKER = "mosquitto"
 PORT = 1883
 
 # Configuration du serveur WebSocket
-WS_SERVER = "ws://192.168.137.164:80"
+WS_SERVER = "ws://backend:8080"
 
 def connect_websocket():
     while True:

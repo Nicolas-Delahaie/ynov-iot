@@ -34,10 +34,22 @@ services:
       - influxdb
       - mosquitto
 
-  web:
-    build: ./web
+  backend:
+    build: ./backend
     depends_on:
       - python
+    ports:
+      - "8080:8080"
+
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./web/index.html:/usr/share/nginx/html/index.html:ro
+      - ./web/configs:/etc/nginx/conf.d:ro
+    depends_on:
+      - backend
 
 volumes:
   influxdb_data:
