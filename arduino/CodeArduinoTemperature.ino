@@ -2,6 +2,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoOTA.h>
+#include <NewPing.h>
 
 // Identifiants WiFi
 const char* ssid = "monwifi";
@@ -16,6 +17,14 @@ PubSubClient client(espClient);
 #define DHTPIN 4
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
+
+// Broches du capteur ultrason
+#define TRIG_PIN 12  // G12 (Trig)
+#define ECHO_PIN 14  // G14 (Echo)
+#define MAX_DISTANCE 400  // Distance maximale du capteur en cm
+
+// Création de l'objet NewPing pour le capteur ultrason
+NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DISTANCE);
 
 bool mqttConnected = false;
 unsigned long wifiConnectTime = 0;
@@ -65,6 +74,24 @@ void reconnect() {
   }
 }
 
+long getDistance() {
+  long distance = sonar.ping_cm();  // Utilisation de NewPing pour récupérer la distance en cm
+
+  // Vérification si la distance est valide
+  if (distance == 0) {
+    Serial.println("⚠️ Aucun écho reçu !");
+    return -1;  // Signal d'erreur
+  }
+
+  // Vérifier si la distance est dans une plage valide (2-400 cm)
+  if (distance < 2 || distance > 400) {
+    Serial.println("⚠️ Distance invalide !");
+    return -1;  // Signal d'erreur
+  }
+
+  return distance;
+}
+
 void setup() {
   Serial.begin(115200);
   dht.begin();
@@ -88,6 +115,7 @@ void loop() {
 
   float temperature = dht.readTemperature();
   float humidity = dht.readHumidity();
+  long distance = getDistance();  // Mesure de la distance avec NewPing
 
   if (!isnan(temperature) && !isnan(humidity)) {
     dhtReadSuccess++;
@@ -96,9 +124,10 @@ void loop() {
     mqttPublishTime = millis();
     
     // Envoi des données sur MQTT
-    char tempString[8], humString[8];
+    char tempString[8], humString[8], distString[8];
     dtostrf(temperature, 6, 2, tempString);
     dtostrf(humidity, 6, 2, humString);
+    dtostrf(distance, 6, 2, distString);  // Convertit la distance en string
 
     Serial.print("📡 Envoi MQTT (température) : ");
     Serial.println(tempString);
@@ -108,13 +137,17 @@ void loop() {
     Serial.println(humString);
     client.publish("capteur/humidity", humString);
 
+    Serial.print("📡 Envoi MQTT (distance) : ");
+    Serial.println(distString);
+    client.publish("capteur/distance", distString);  // Envoi de la distance sur MQTT
+
     mqttPublishTime = millis() - mqttPublishTime;
     Serial.print("⏳ Latence MQTT : ");
     Serial.print(mqttPublishTime);
     Serial.println(" ms");
 
   } else {
-    Serial.println("⚠️ Erreur de lecture du DHT11 !");
+    Serial.println("⚠️ Erreur de lecture des capteurs !");
     dhtReadFailures++;
   }
 
@@ -130,5 +163,5 @@ void loop() {
     Serial.println(dhtReadFailures);
   }
 
-  delay(5000);
+  delay(1000);  // Attente avant la prochaine mesure
 }
