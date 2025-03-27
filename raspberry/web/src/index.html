@@ -4,101 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WebSocket avec Cartes</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #8b4513;
-        margin: 0;
-      }
-      h1 {
-        text-align: center;
-        background: #654321;
-        color: white;
-        padding: 20px;
-        margin: 0;
-      }
-      .card-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 20px;
-        justify-content: center;
-      }
-      .card {
-        border: 1px solid #ccc;
-        padding: 10px;
-        border-radius: 5px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-        background: #f9f9f9;
-        width: 200px;
-        text-align: center;
-      }
-      .card img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 50%;
-      }
-      .card .topic-text {
-        font-weight: bold;
-        margin-top: 10px;
-      }
-      .card .value-text {
-        margin-top: 5px;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <h1>WebSocket avec Cartes</h1>
     <div class="card-container" id="output"></div>
-
-    <script>
-      const SERVER_NAME = "localhost";
-      const socket = new WebSocket(`ws://${SERVER_NAME}:8080`);
-
-      socket.onopen = () => console.log("Connecté au serveur WebSocket");
-      socket.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          updateOrCreateCard(data.topic, data.message);
-        } catch (error) {
-          console.error("Erreur de parsing JSON :", error);
-        }
-      };
-      socket.onclose = () => console.log("Déconnecté du serveur");
-
-      function updateOrCreateCard(topic, value) {
-        let card = document.getElementById(`card-${topic}`);
-
-        if (card) {
-          card.querySelector(".value-text").textContent = `Valeur : ${value}`;
-        } else {
-          createCard(topic, value);
-        }
-      }
-
-      function createCard(topic, value) {
-        const card = document.createElement("div");
-        card.classList.add("card");
-        card.id = `card-${topic}`;
-
-        const img = document.createElement("img");
-        img.src = "https://via.placeholder.com/100";
-
-        const topicText = document.createElement("div");
-        topicText.classList.add("topic-text");
-        topicText.textContent = `Topic : ${topic}`;
-
-        const valueText = document.createElement("div");
-        valueText.classList.add("value-text");
-        valueText.textContent = `Valeur : ${value}`;
-
-        card.appendChild(img);
-        card.appendChild(topicText);
-        card.appendChild(valueText);
-
-        document.getElementById("output").appendChild(card);
-      }
-    </script>
   </body>
+  <script src="index.js"></script>
 </html>
