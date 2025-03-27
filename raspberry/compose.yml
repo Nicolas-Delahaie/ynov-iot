@@ -28,16 +28,10 @@ services:
     environment:
       - TZ=Europe/Paris
 
-  python:
-    build: ./python
-    depends_on:
-      - influxdb
-      - mosquitto
-
   backend:
     build: ./backend
     depends_on:
-      - python
+      - mosquitto
     ports:
       - "8080:8080"
 
