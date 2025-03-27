@@ -13,6 +13,11 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 
 bool mqttConnected = false;
+unsigned long wifiConnectTime = 0;
+int mqttReconnectAttempts = 0;
+int mqttMessagesReceived = 0;
+int humidityLow = 0, humidityNormal = 0, humidityHigh = 0;
+unsigned long lastMessageTime = 0;
 
 // Broches de la LED RGB
 #define RED_PIN 16
@@ -21,14 +26,19 @@ bool mqttConnected = false;
 
 void setup_wifi() {
   Serial.print("Connexion au WiFi...");
+  wifiConnectTime = millis();
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
+  wifiConnectTime = millis() - wifiConnectTime;
   Serial.println("\n✅ Connecté au WiFi !");
   Serial.print("Adresse IP : ");
   Serial.println(WiFi.localIP());
+  Serial.print("⏳ Temps de connexion WiFi : ");
+  Serial.print(wifiConnectTime);
+  Serial.println(" ms");
 }
 
 void setColor(int red, int green, int blue) {
@@ -38,6 +48,9 @@ void setColor(int red, int green, int blue) {
 }
 
 void callback(char* topic, byte* payload, unsigned int length) {
+  unsigned long messageStartTime = millis();
+  mqttMessagesReceived++;
+
   Serial.print("📩 Message reçu sur le topic ");
   Serial.print(topic);
   Serial.print(": ");
@@ -47,22 +60,28 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   Serial.println(message);
 
-  // Gestion de la LED
+  // Gestion de la LED en fonction de l'humidité
   if (strcmp(topic, "capteur/humidity") == 0) {
     float humidity = message.toFloat();
-    
-    // Modifier la couleur de la LED en fonction de l'humidité
     if (humidity < 30) {
       setColor(255, 0, 0);  // Rouge si humidité < 30%
-      Serial.println("🚨 Humidité trop faible, LED rouge.");
+      humidityLow++;
+      Serial.println("🚨 Humidité faible, LED rouge.");
     } else if (humidity >= 30 && humidity < 60) {
       setColor(0, 255, 0);  // Vert si humidité entre 30% et 60%
+      humidityNormal++;
       Serial.println("✅ Humidité normale, LED verte.");
     } else {
       setColor(0, 0, 255);  // Bleu si humidité > 60%
+      humidityHigh++;
       Serial.println("💦 Humidité élevée, LED bleue.");
     }
   }
+
+  lastMessageTime = millis() - messageStartTime;
+  Serial.print("⏳ Latence réception MQTT : ");
+  Serial.print(lastMessageTime);
+  Serial.println(" ms");
 }
 
 void reconnect() {
@@ -73,11 +92,12 @@ void reconnect() {
       client.subscribe("capteur/temperature");
       client.subscribe("capteur/humidity");
     } else {
+      mqttReconnectAttempts++;
       Serial.print("❌ Échec, code erreur : ");
       Serial.print(client.state());
       Serial.println(" => Nouvelle tentative dans 5s");
-      client.disconnect();  // Déconnexion propre
-      delay(5000);  // Pause pour éviter un spam de tentatives
+      client.disconnect();
+      delay(5000);
     }
   }
 }
@@ -102,4 +122,24 @@ void loop() {
   }
   client.loop();
   ArduinoOTA.handle();
+
+  // Affichage des statistiques toutes les 30 secondes
+  static unsigned long lastStatsTime = 0;
+  if (millis() - lastStatsTime > 30000) {
+    lastStatsTime = millis();
+    Serial.println("📊 Statistiques ESP32:");
+    Serial.print("🔄 Nombre de reconnexions MQTT : ");
+    Serial.println(mqttReconnectAttempts);
+    Serial.print("📥 Messages MQTT reçus : ");
+    Serial.println(mqttMessagesReceived);
+    Serial.print("💧 Humidité faible (<30%) : ");
+    Serial.println(humidityLow);
+    Serial.print("✅ Humidité normale (30-60%) : ");
+    Serial.println(humidityNormal);
+    Serial.print("💦 Humidité élevée (>60%) : ");
+    Serial.println(humidityHigh);
+    Serial.print("⏳ Dernière latence MQTT : ");
+    Serial.print(lastMessageTime);
+    Serial.println(" ms");
+  }
 }
