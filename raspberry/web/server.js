@@ -1,5 +1,5 @@
 const WebSocket = require("ws");
-const server = new WebSocket.Server({ host: "0.0.0.0", port: 80 });
+const server = new WebSocket.Server({ host: "0.0.0.0", port: 8080 });
 
 server.on("connection", (socket) => {
   console.log("Un client est connecté");
@@ -15,4 +15,4 @@ server.on("connection", (socket) => {
   });
 });
 
-console.log("Serveur WebSocket démarré sur ws://localhost:80");
+console.log("Serveur WebSocket démarré sur ws://localhost:8080");

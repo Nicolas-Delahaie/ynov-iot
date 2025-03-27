@@ -112,18 +112,21 @@ Lorsque le code est fonctionnel, il faut ensuite le copier sur la carte physique
 1. Allumez la Raspberry Pi.
 2. Connectez-la au réseau Wi-Fi souhaité.
 3. Attribuez un nom à la Raspberry pour éviter d’utiliser son adresse IP :
+
    ```bash
    sudo nmtui
    ```
+
    → Allez dans **Set system hostname**, puis définissez un nom comme `rasp`.
 
 #### Connexion SSH
 
 - Assurez-vous que votre ordinateur est connecté au **même réseau local** que la Raspberry.
 - Connexion SSH classique :
-  ```bash
-  ssh rasp@rasp.local
-  ```
+
+```bash
+ssh rasp@rasp.local
+```
 
 #### Déploiement du projet
 

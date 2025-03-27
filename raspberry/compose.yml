@@ -35,15 +35,9 @@ services:
       - mosquitto
 
   web:
-    image: node:latest #TODO : Dockerfile pour le npm i avec le bon user
-    volumes:
-      - ./web:/app
-    working_dir: /app
+    build: ./web
     depends_on:
       - python
-    ports:
-      - "80:80"
-    command: sh -c "npm i && node /app/server.js"
 
 volumes:
   influxdb_data:
