@@ -1,3 +1,4 @@
+name: ynov-iot-raspberry
 services:
   influxdb:
     image: influxdb:latest
