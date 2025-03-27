@@ -53,7 +53,7 @@
     <div class="card-container" id="output"></div>
 
     <script>
-      const SERVER_NAME = "rasp.local";
+      const SERVER_NAME = "localhost";
       const socket = new WebSocket(`ws://${SERVER_NAME}:8080`);
 
       socket.onopen = () => console.log("Connecté au serveur WebSocket");
