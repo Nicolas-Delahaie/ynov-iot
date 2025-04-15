@@ -47,12 +47,12 @@ function createCard(topic, value) {
 function getImageForTopic(topic) {
   switch (topic.toLowerCase()) {
     case "humidity":
-      return "https://img.icons8.com/fluency/96/000000/hygrometer.png";
+      return "../img/humidity.png";
     case "temperature":
-      return "https://img.icons8.com/fluency/96/000000/temperature.png";
+      return "../img/temperature.png";
     case "distance":
-      return "https://img.icons8.com/fluency/96/000000/ultrasound.png";
+      return "../img/distance.jpeg";
     default:
-      return "https://via.placeholder.com/100"; // fallback
+      return "../img/error.png"; // fallback
   }
 }
