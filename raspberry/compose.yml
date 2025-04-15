@@ -12,7 +12,8 @@ services:
       DOCKER_INFLUXDB_INIT_USERNAME: admin
       DOCKER_INFLUXDB_INIT_PASSWORD: admin123
       DOCKER_INFLUXDB_INIT_ORG: hanse-mance-mans
-      DOCKER_INFLUXDB_INIT_BUCKET: my_bucket
+      DOCKER_INFLUXDB_INIT_BUCKET: Capteur
+      INFLUXDB_ADMIN_TOKEN: PG8DUiFjPXArjZLBYJgzL0-eCuuUcEosxP-jH_xI86MxzeArbWxbaBTvQIZmqwIC4sBub8PJfRNqcE24TVG3qw==
 
   mosquitto:
     image: eclipse-mosquitto:latest

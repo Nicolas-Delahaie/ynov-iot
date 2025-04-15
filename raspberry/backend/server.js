@@ -5,7 +5,7 @@ const { InfluxDB, Point } = require("@influxdata/influxdb-client");
 // =========================
 // Configuration InfluxDB
 // =========================
-const INFLUX_URL = "rasp.local:8086";
+const INFLUX_URL = "http://rasp.local:8086";
 const INFLUX_TOKEN = "PG8DUiFjPXArjZLBYJgzL0-eCuuUcEosxP-jH_xI86MxzeArbWxbaBTvQIZmqwIC4sBub8PJfRNqcE24TVG3qw==";
 const INFLUX_ORG = "hanse-mance-mans";
 const INFLUX_BUCKET = "Capteur";
