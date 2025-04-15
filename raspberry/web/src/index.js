@@ -47,12 +47,12 @@ function createCard(topic, value) {
 function getImageForTopic(topic) {
   switch (topic.toLowerCase()) {
     case "humidity":
-      return "http://rasp.local/raspberry/web/img/humidity.png";
+      return "img/humidity.png";
     case "temperature":
-      return "http://rasp.local/raspberry/web/img/temperature.png";
+      return "img/temperature.png";
     case "distance":
-      return "http://rasp.local/raspberry/web/img/distance.jpeg";
+      return "img/distance.jpeg";
     default:
-      return "http://rasp.local/raspberry/web/img/error.png"; // fallback
+      return "img/error.png"; // fallback
   }
 }
