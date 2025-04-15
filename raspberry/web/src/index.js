@@ -27,7 +27,7 @@ function createCard(topic, value) {
   card.id = `card-${topic}`;
 
   const img = document.createElement("img");
-  img.src = "https://via.placeholder.com/100";
+  img.src = getImageForTopic(topic); 
 
   const topicText = document.createElement("div");
   topicText.classList.add("topic-text");
@@ -42,4 +42,17 @@ function createCard(topic, value) {
   card.appendChild(valueText);
 
   document.getElementById("output").appendChild(card);
+}
+
+function getImageForTopic(topic) {
+  switch (topic.toLowerCase()) {
+    case "humidity":
+      return "https://img.icons8.com/fluency/96/000000/hygrometer.png";
+    case "temperature":
+      return "https://img.icons8.com/fluency/96/000000/temperature.png";
+    case "distance":
+      return "https://img.icons8.com/fluency/96/000000/ultrasound.png";
+    default:
+      return "https://via.placeholder.com/100"; // fallback
+  }
 }
