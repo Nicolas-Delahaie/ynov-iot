@@ -22,37 +22,30 @@ function updateOrCreateCard(topic, value) {
 }
 
 function createCard(topic, value) {
-  const card = document.createElement("div");
-  card.classList.add("card");
-  card.id = `card-${topic}`;
+  const card = Object.assign(document.createElement("div"), {
+    className: "card",
+    id: `card-${topic}`
+  });
 
-  const img = document.createElement("img");
-  img.src = getImageForTopic(topic); 
+  const createElement = (tag, className, text) => {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text) el.textContent = text;
+    return el;
+  };
 
-  const topicText = document.createElement("div");
-  topicText.classList.add("topic-text");
-  topicText.textContent = `Topic : ${topic}`;
+  const lower = topic.toLowerCase();
+  const mappings = {
+    "capteur/humidity": { label: "humidity", symbol: "%", img: "img/humidity.png" },
+    "capteur/temperature": { label: "temperature", symbol: "°C", img: "img/temperature.png" },
+    "capteur/distance": { label: "distance", symbol: "cm", img: "img/distance.jpeg" }
+  };
 
-  const valueText = document.createElement("div");
-  valueText.classList.add("value-text");
-  valueText.textContent = `Valeur : ${value}`;
+  const { label = "jsp", symbol = "jsp", img = "img/error.png" } = mappings[lower] || {};
 
-  card.appendChild(img);
-  card.appendChild(topicText);
-  card.appendChild(valueText);
+  card.appendChild(Object.assign(document.createElement("img"), { src: img }));
+  card.appendChild(createElement("div", "topic-text", label));
+  card.appendChild(createElement("div", "value-text", `${value} : ${symbol}`));
 
   document.getElementById("output").appendChild(card);
-}
-
-function getImageForTopic(topic) {
-  switch (topic.toLowerCase()) {
-    case "humidity":
-      return "img/humidity.png";
-    case "temperature":
-      return "img/temperature.png";
-    case "distance":
-      return "img/distance.jpeg";
-    default:
-      return "img/error.png"; // fallback
-  }
 }
