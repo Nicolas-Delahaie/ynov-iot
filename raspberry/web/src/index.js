@@ -14,11 +14,7 @@ backend.onclose = () => console.log("Déconnecté du serveur");
 function updateOrCreateCard(topic, value) {
   let card = document.getElementById(`card-${topic}`);
 
-  if (card) {
-    card.querySelector(".value-text").textContent = `Valeur : ${value}`;
-  } else {
-    createCard(topic, value);
-  }
+  createCard(topic, value);
 }
 
 function createCard(topic, value) {
@@ -36,16 +32,16 @@ function createCard(topic, value) {
 
   const lower = topic.toLowerCase();
   const mappings = {
-    "capteur/humidity": { label: "humidity", symbol: "%", img: "img/humidity.png" },
-    "capteur/temperature": { label: "temperature", symbol: "°C", img: "img/temperature.png" },
-    "capteur/distance": { label: "distance", symbol: "cm", img: "img/distance.jpeg" }
+    "capteur/humidity": { label: "Humidité", symbol: "%", img: "img/humidity.png" },
+    "capteur/temperature": { label: "Température", symbol: "°C", img: "img/temperature.png" },
+    "capteur/distance": { label: "Distance", symbol: "cm", img: "img/distance.jpeg" }
   };
 
-  const { label = "jsp", symbol = "jsp", img = "img/error.png" } = mappings[lower] || {};
+  const { label = "jsp", symbol = "", img = "img/error.png" } = mappings[lower] || {};
 
   card.appendChild(Object.assign(document.createElement("img"), { src: img }));
   card.appendChild(createElement("div", "topic-text", label));
-  card.appendChild(createElement("div", "value-text", `${value} : ${symbol}`));
+  card.appendChild(createElement("div", "value-text", `${value}${symbol}`)); // valeur suivie du symbole
 
   document.getElementById("output").appendChild(card);
 }
