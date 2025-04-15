@@ -23,7 +23,7 @@ function updateOrCreateCard(topic, value) {
   const { symbol = "" } = mappings[lower] || {};
 
   if (card) {
-    card.querySelector(".value-text").textContent = `${value}${symbol}`;
+    card.querySelector(".value-text").textContent = `${value} ${symbol}`;
   } else {
     createCard(topic, value);
   }
@@ -46,14 +46,14 @@ function createCard(topic, value) {
   const mappings = {
     "capteur/humidity": { label: "Humidité", symbol: "%", img: "img/humidity.png" },
     "capteur/temperature": { label: "Température", symbol: "°C", img: "img/temperature.png" },
-    "capteur/distance": { label: "Distance", symbol: "cm", img: "img/distance.jpeg" }
+    "capteur/distance": { label: "Distance", symbol: "cm", img: "img/distance.jpg" }
   };
 
   const { label = "jsp", symbol = "", img = "img/error.png" } = mappings[lower] || {};
 
   card.appendChild(Object.assign(document.createElement("img"), { src: img }));
   card.appendChild(createElement("div", "topic-text", label));
-  card.appendChild(createElement("div", "value-text", `${value}${symbol}`)); // valeur suivie du symbole
+  card.appendChild(createElement("div", "value-text", `${value} ${symbol}`)); // valeur suivie du symbole
 
   document.getElementById("output").appendChild(card);
 }
