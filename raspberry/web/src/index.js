@@ -14,7 +14,11 @@ backend.onclose = () => console.log("Déconnecté du serveur");
 function updateOrCreateCard(topic, value) {
   let card = document.getElementById(`card-${topic}`);
 
-  createCard(topic, value);
+  if (card) {
+    card.querySelector(".value-text").textContent = `${value}`;
+  } else {
+    createCard(topic, value);
+  }
 }
 
 function createCard(topic, value) {
