@@ -14,8 +14,16 @@ backend.onclose = () => console.log("Déconnecté du serveur");
 function updateOrCreateCard(topic, value) {
   let card = document.getElementById(`card-${topic}`);
 
+  const lower = topic.toLowerCase();
+  const mappings = {
+    "capteur/humidity": { symbol: "%" },
+    "capteur/temperature": { symbol: "°C" },
+    "capteur/distance": { symbol: "cm" }
+  };
+  const { symbol = "" } = mappings[lower] || {};
+
   if (card) {
-    card.querySelector(".value-text").textContent = `${value}`;
+    card.querySelector(".value-text").textContent = `${value}${symbol}`;
   } else {
     createCard(topic, value);
   }
