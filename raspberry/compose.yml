@@ -16,7 +16,6 @@ services:
 
   mosquitto:
     image: eclipse-mosquitto:latest
-    container_name: mosquitto
     restart: unless-stopped
     ports:
       - "1883:1883" # Port MQTT
