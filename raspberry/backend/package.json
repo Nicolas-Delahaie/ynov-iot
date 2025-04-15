@@ -10,7 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "ws": "^8.18.1",
-    "mqtt": "^5.0.0"
+    "@influxdata/influxdb-client": "^1.35.0",
+    "mqtt": "^5.0.0",
+    "ws": "^8.18.1"
   }
 }
