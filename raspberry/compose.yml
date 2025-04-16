@@ -4,16 +4,14 @@ services:
     image: influxdb:latest
     ports:
       - "8086:8086"
-    volumes:
-      - influxdb_data:/var/lib/influxdb2
     environment:
       INFLUXDB_DB: ynov-iot
       DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME: admin
       DOCKER_INFLUXDB_INIT_PASSWORD: admin123
       DOCKER_INFLUXDB_INIT_ORG: hanse-mance-mans
-      DOCKER_INFLUXDB_INIT_BUCKET: Capteur
-      INFLUXDB_ADMIN_TOKEN: PG8DUiFjPXArjZLBYJgzL0-eCuuUcEosxP-jH_xI86MxzeArbWxbaBTvQIZmqwIC4sBub8PJfRNqcE24TVG3qw==
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN}
 
   mosquitto:
     image: eclipse-mosquitto:latest
@@ -22,7 +20,7 @@ services:
       - "1883:1883" # Port MQTT
       - "9001:9001" # WebSockets (si besoin)
     volumes:
-      - ./mosquitto-config:/mosquitto/config
+      - ./mosquitto:/mosquitto/config
       - mosquitto_data:/mosquitto/data
       - mosquitto_log:/mosquitto/log
     environment:
@@ -45,8 +43,21 @@ services:
     depends_on:
       - backend
 
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    depends_on:
+      - influxdb
+
 volumes:
-  influxdb_data:
   mosquitto_config:
   mosquitto_data:
   mosquitto_log:
+  grafana_data:

@@ -1,0 +1,18 @@
+apiVersion: 1
+
+datasources:
+  - name: Capteurs Ynov
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    isDefault: true
+
+    jsonData:
+      version: Flux
+      organization: hanse-mance-mans # Copied from .env
+      defaultBucket: Capteur # Copied from .env
+      tlsSkipVerify: true
+      timeInterval: 10s
+
+    secureJsonData:
+      token: PG8DUiFjPXArjZLBYJgzL0-eCuuUcEosxP-jH_xI86MxzeArbWxbaBTvQIZmqwIC4sBub8PJfRNqcE24TVG3qw== # Copied from .env
