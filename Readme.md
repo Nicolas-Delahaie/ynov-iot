@@ -10,13 +10,17 @@
 
 [Document de présentation du projet (Word)](https://auvencecom-my.sharepoint.com/:w:/g/personal/nicolas_delahaie_ynov_com/EWxNXPk6Hf5GhAFUDsCuzskBGGFIuqWOAZh5HHxPKcpJHA?e=mTtp2u)
 
-Ce projet IoT utilise **un capteur DHT11** pour mesurer l’humidité et la transmet via **un ESP8266** à un **broker MQTT**. Un **ESP32** reçoit ensuite ces données et ajuste une **LED RGB** en fonction du niveau d’humidité :
+Ce projet IoT utilise **un capteur DHT11** pour mesurer l’humidité et la transmet via **un ESP32** à un **broker MQTT**. Un autre **ESP32** reçoit ensuite ces données et ajuste une **LED RGB** en fonction du niveau d’humidité :
 
 - 🔴 **Rouge** : Air sec (< 30%)
 - 🟢 **Vert** : Humidité normale (30% - 60%)
 - 🔵 **Bleu** : Air humide (> 60%)
 
-Les LEDs peuvent être allumées ou éteintes manuellement via les boutons correspondants sur la télécommande, comme on peut le voir sur cette [vidéo de démonstration](demonstration.mp4).
+On utilise aussi **un capteur d'ultrasons** qui permet de mesurer une distance inférieure à 400 cm et la transmet via **un ESP32** à un **broker MQTT**. Un autre **ESP32** reçoit ensuite cette distance et allume soit une LED Rouge, soit une LED Bleue en fonction de la distance :
+
+- 🔴 **LED Rouge** : Distance > 200 cm
+- 🔵 **LED Bleue** : Distance < 200 cm
+
 
 ### Documentation
 
@@ -24,80 +28,38 @@ Les diagrammes sont trouvables dans le dossier `docs/`. Les fichiers avec l'exte
 
 ## Matériel utilisé
 
-[Schema de l'installation](schema_arduino.png)
+[Schema de l'installation](Branchement.png)
 
 - **Câbles et breadboard**
-- **Arduino Uno** avec ses équipements :
+- **2 ESP32**
   - Capteurs :
     - DHT11 (humidité et température)
-  - Pilotage :
-    - Recepteur infrarouge (IRReceiver)
-    - Télécommande
-  - Affichage :
-    - Écran LCD 16x2 (mode parallèle)
-    - Potentiomètre 10kΩ (pour le contraste du LCD)
+    - Capteur d'ultrasons
   - Éclairage :
     - 1 LED RGB (anode ou cathode commune)
     - 1 LED rouge
     - 1 LED bleue
-    - 2 résistances 220Ω
-- **Raspberry** avec ses équipements :
-  - Écran HDMI
-  - Souris
-  - Clavier
-  - Antenne LoRa
-- **ESP32**
-- **ESP8266**
+    - 5 résistances 220Ω
+  - Alimentation :
+    - Pile 9V
+    - Module ...  
+- **Raspberry**
 
 ## Fonctionnement
 
 ### Communication entre les composants
 
-1. L’Arduino mesure **l’humidité** via le capteur **DHT11**.
-2. Il envoie les valeurs **par communication série** à l’ESP8266.
-3. L’ESP8266 **publie** ces valeurs sur **le broker MQTT local (ordinateur)**.
-4. L’ESP32 **s’abonne** aux données et ajuste la **LED RGB** selon l’humidité.
+1. Une ESP32 mesure **l’humidité** et **la température** via le capteur **DHT11**.
+2. Il envoie les valeurs au **broker MQTT** présent sur le Raspberry via WiFi.
+3. Une autre ESP32 **s’abonne** aux données et active les différentes LEDS selon les valeurs.
 
-```mermaid
-graph TD;
-    Arduino -->|UART| ESP8266;
-    ESP8266 -->|WiFi MQTT Publish| BrokerMQTT;
-    BrokerMQTT -->|WiFi MQTT Subscribe| ESP32;
-    ESP32 -->|PWM| LED_RGB;
-```
-
-## Branchements
-
-### Circuit Arduino
-
-- DHT11 (Humidité)
-  - VCC → 5V
-  - GND → GND
-  - Data → D3
-- TX Arduino → RX ESP8266
-- RX Arduino → TX ESP8266
-- GND commun entre les deux
-
-### Circuit ESP8266 (WiFi + MQTT)
-
-- Connexion au WiFi
-- RX/TX pour communiquer avec l’Arduino
-- WiFi activé pour MQTT
-
-### Circuit ESP32 (Actionneur LED RGB)
-
-- Abonnement au topic MQTT (pour récupèrer les données de l’humidité)
-- LED Rouge → GPIO16
-- LED Vert → GPIO17
-- LED Bleu → GPIO18
 
 ## Installation logicielle
 
-### Arduino (capteurs)
+### ESP32 (capteurs)
 
-Le code source est présent sur la plateforme en ligne Wokwi, qui permet de simuler le circuit electronique et de coder directement dedans. [Projet Wokwi](https://wokwi.com/projects/422783187973623809)
-
-Lorsque le code est fonctionnel, il faut ensuite le copier sur la carte physique.
+Le code CodeRecepteur.ino est à téléverser sur l'ESP32 relié aux capteurs.
+Le code CodeActionneur.ino est à téléverser sur l'ESP32 relié aux LEDS.
 
 ### Raspberry Pi (serveur public)
 
