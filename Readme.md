@@ -58,8 +58,8 @@ Les diagrammes sont trouvables dans le dossier `docs/`. Les fichiers avec l'exte
 
 ### ESP32 (capteurs)
 
-Le code CodeRecepteur.ino est à téléverser sur l'ESP32 relié aux capteurs.
-Le code CodeActionneur.ino est à téléverser sur l'ESP32 relié aux LEDS.
+- Le code CodeRecepteur.ino est à téléverser sur l'ESP32 relié aux capteurs.
+- Le code CodeActionneur.ino est à téléverser sur l'ESP32 relié aux LEDS.
 
 ### Raspberry Pi (serveur public)
 
