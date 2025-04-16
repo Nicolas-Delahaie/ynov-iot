@@ -1,67 +1,125 @@
 const WebSocket = require("ws");
 const mqtt = require("mqtt");
+const { InfluxDB, Point } = require("@influxdata/influxdb-client");
 
-// Configuration du serveur WebSocket
+// =========================
+// Configuration InfluxDB
+// =========================
+const INFLUX_URL = "http://rasp.local:8086";
+const INFLUX_TOKEN = "PG8DUiFjPXArjZLBYJgzL0-eCuuUcEosxP-jH_xI86MxzeArbWxbaBTvQIZmqwIC4sBub8PJfRNqcE24TVG3qw==";
+const INFLUX_ORG = "hanse-mance-mans";
+const INFLUX_BUCKET = "Capteur";
+
+const influxDB = new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN });
+const writeApi = influxDB.getWriteApi(INFLUX_ORG, INFLUX_BUCKET, "ns");
+
+// =========================
+// Configuration WebSocket
+// =========================
 const wss = new WebSocket.Server({ host: "0.0.0.0", port: 8080 });
-console.log("Serveur WebSocket démarré sur ws://localhost:8080");
+console.log("✅ Serveur WebSocket démarré sur ws://localhost:8080");
 
-// Configuration du client MQTT
+wss.on("connection", (socket) => {
+  console.log("🔌 Client WebSocket connecté");
+
+  socket.on("close", () => {
+    console.log("❌ Client WebSocket déconnecté");
+  });
+});
+
+// =========================
+// Configuration MQTT
+// =========================
 const MQTT_BROKER = "mqtt://mosquitto";
-const mqttClient = mqtt.connect(MQTT_BROKER);
-
-// Liste des topics à écouter
 const MQTT_TOPICS = [
   "capteur/humidity",
   "capteur/temperature",
   "capteur/distance",
 ];
 
-wss.on("connection", (socket) => {
-  console.log("Un client WebSocket est connecté");
+const mqttClient = mqtt.connect(MQTT_BROKER);
 
-  socket.on("close", () => {
-    console.log("Un client WebSocket s'est déconnecté");
+// =========================
+// Unités par topic
+// =========================
+const UNITS = {
+  "capteur/temperature": "°C",
+  "capteur/distance": "cm",
+  "capteur/humidity": "%",
+};
+
+// =========================
+// Connexion au MQTT Broker
+// =========================
+mqttClient.on("connect", () => {
+  console.log("✅ Connecté au broker MQTT");
+
+  MQTT_TOPICS.forEach((topic) => {
+    mqttClient.subscribe(topic, (err) => {
+      if (err) {
+        console.error(`❗ Erreur abonnement ${topic} :`, err);
+      } else {
+        console.log(`📡 Abonné à ${topic}`);
+      }
+    });
   });
 });
 
-// Connexion au broker MQTT
-mqttClient.on("connect", () => {
-  console.log("Connecté au broker MQTT");
-
-  // S'abonner aux topics
-  MQTT_TOPICS.forEach((topic) =>
-    mqttClient.subscribe(topic, (err) => {
-      if (err) {
-        console.error(`Erreur lors de l'abonnement à ${topic} :`, err);
-      } else {
-        console.log(`Abonné à ${topic}`);
-      }
-    })
-  );
-});
-
-// Réception des messages MQTT et envoi aux clients WebSocket
+// =========================
+// Réception des messages MQTT
+// =========================
 mqttClient.on("message", (topic, message) => {
+  const value = parseFloat(message.toString());
+  const unit = UNITS[topic] || "";
+
   const payload = {
-    topic: topic,
-    message: message.toString(),
+    topic,
+    value,
+    unit,
   };
 
-  console.log(`Message MQTT reçu : ${JSON.stringify(payload)}`);
+  console.log(`📥 Message MQTT reçu : ${JSON.stringify(payload)}`);
 
-  // Envoi du message à tous les clients WebSocket connectés
+  // Envoi aux clients WebSocket
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(JSON.stringify(payload));
     }
   });
+
+  // Insertion dans InfluxDB
+  const point = new Point(topic.replace("capteur/", ""))
+    .floatField("value", value)
+    .tag("unit", unit)
+    .timestamp(new Date());
+
+  writeApi.writePoint(point);
 });
 
-// Gestion des erreurs MQTT
+// =========================
+// Gestion erreurs MQTT
+// =========================
 mqttClient.on("error", (err) => {
-  console.error("Erreur MQTT :", err);
+  console.error("❗ Erreur MQTT :", err);
 });
 
 mqttClient.on("close", () => {
-  console.log("Déconnecté du broker MQTT");
+  console.log("🔌 Déconnecté du broker MQTT");
+});
+
+// =========================
+// Fermeture propre
+// =========================
+process.on("SIGINT", () => {
+  console.log("⏳ Fermeture du serveur...");
+  writeApi
+    .close()
+    .then(() => {
+      console.log("✅ Données InfluxDB flushées avec succès.");
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("❗ Erreur fermeture InfluxDB :", err);
+      process.exit(1);
+    });
 });
