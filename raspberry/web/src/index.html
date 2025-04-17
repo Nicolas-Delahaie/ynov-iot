@@ -22,13 +22,20 @@
         <h2>📈 Graphiques</h2>
         <!-- TODO : retirer host en dur du src -->
         <!-- Rendre persistante l'url publique du dashboard -->
-        <iframe
-          src="http://rasp.local:3000/public-dashboards/e07e465c87384d83a6687fd7ecd4acc0"
-          width="450"
-          height="200"
-          frameborder="0"
-        >
-        </iframe>
+        <iframe id="grafana-iframe" width="100%" height="300"></iframe>
+
+        <script>
+          const urlParams = new URLSearchParams(window.location.search);
+          const dashboardId = urlParams.get("dashboard_id");
+
+          if (!dashboardId) {
+            console.error("Erreur : aucun dashboard spécifié dans l'URL");
+          } else {
+            const iframe = document.getElementById("grafana-iframe");
+            const dashboardUrl = `http://${window.location.hostname}:3000/public-dashboards/${dashboardId}`;
+            iframe.src = dashboardUrl;
+          }
+        </script>
       </section>
     </main>
 
