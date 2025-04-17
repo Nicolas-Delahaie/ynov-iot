@@ -4,7 +4,7 @@ datasources:
   - name: Capteurs Ynov
     type: influxdb
     access: proxy
-    url: http://influxdb:8086
+    url: http://influxdb:8086 # Copied from .env
     isDefault: true
 
     jsonData:

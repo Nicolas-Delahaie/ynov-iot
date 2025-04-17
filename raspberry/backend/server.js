@@ -5,11 +5,13 @@ const { InfluxDB, Point } = require("@influxdata/influxdb-client");
 // =========================
 // Configuration InfluxDB
 // =========================
-const INFLUX_URL = "http://rasp.local:8086";
-const INFLUX_TOKEN = "PG8DUiFjPXArjZLBYJgzL0-eCuuUcEosxP-jH_xI86MxzeArbWxbaBTvQIZmqwIC4sBub8PJfRNqcE24TVG3qw==";
-const INFLUX_ORG = "hanse-mance-mans";
-const INFLUX_BUCKET = "Capteur";
+const { INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG, INFLUX_BUCKET } = process.env;
 
+if (!INFLUX_URL || !INFLUX_TOKEN || !INFLUX_ORG || !INFLUX_BUCKET) {
+  throw new Error(
+    "Error : Please set INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG and INFLUX_BUCKET environment variables"
+  );
+}
 const influxDB = new InfluxDB({ url: INFLUX_URL, token: INFLUX_TOKEN });
 const writeApi = influxDB.getWriteApi(INFLUX_ORG, INFLUX_BUCKET, "ns");
 
