@@ -1,49 +1,49 @@
 <mxfile host="65bd71144e">
     <diagram id="fZp3_r64NPAg18nF-zvm" name="Page-1">
-        <mxGraphModel dx="900" dy="337" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="350" dy="692" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-                <mxCell id="11" value="Port&lt;div&gt;1883&amp;nbsp;&lt;/div&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" source="10" target="5" edge="1">
-                    <mxGeometry relative="1" as="geometry">
+                <mxCell id="11" value="MQTT" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" source="10" target="5" edge="1">
+                    <mxGeometry x="0.0048" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="10" value="Script Arduino" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry y="160" width="110" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" value="Client" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="18" value="Client" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="680" y="160" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="19" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Port&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;80&lt;/span&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="4" target="18">
-                    <mxGeometry x="0.0063" relative="1" as="geometry">
+                <mxCell id="19" value="HTTP" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" source="4" target="18" edge="1">
+                    <mxGeometry x="0.0111" relative="1" as="geometry">
                         <mxPoint x="820" y="280" as="sourcePoint"/>
                         <mxPoint x="920" y="280" as="targetPoint"/>
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="21" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Port 8080&lt;/span&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="3" target="18">
-                    <mxGeometry x="0.0054" relative="1" as="geometry">
+                <mxCell id="21" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Websocket&lt;/span&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" source="3" target="18" edge="1">
+                    <mxGeometry relative="1" as="geometry">
                         <mxPoint x="540" y="122" as="sourcePoint"/>
                         <mxPoint x="860" y="188" as="targetPoint"/>
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="22" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Port 3000&lt;/span&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="18" target="14">
-                    <mxGeometry x="0.0081" relative="1" as="geometry">
+                <mxCell id="22" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;HTTP&lt;/span&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" source="18" target="14" edge="1">
+                    <mxGeometry x="0.0084" relative="1" as="geometry">
                         <mxPoint x="540" y="200" as="sourcePoint"/>
                         <mxPoint x="860" y="200" as="targetPoint"/>
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="24" value="&lt;span style=&quot;color: rgb(0, 0, 0);&quot;&gt;Port&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;8086&lt;/span&gt;" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1" source="18" target="2">
+                <mxCell id="24" value="HTTP" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" source="18" target="2" edge="1">
                     <mxGeometry x="0.0054" relative="1" as="geometry">
                         <mxPoint x="869" y="230" as="sourcePoint"/>
                         <mxPoint x="531" y="430" as="targetPoint"/>
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="25" value="Docker cluster" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="25" value="Docker cluster" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="190" y="30" width="350" height="430" as="geometry">
                         <mxRectangle x="190" width="120" height="30" as="alternateBounds"/>
                     </mxGeometry>
@@ -63,7 +63,7 @@
                 <mxCell id="4" value="Serveur frontend (Nginx)" style="rounded=1;whiteSpace=wrap;html=1;" parent="25" vertex="1">
                     <mxGeometry x="220" y="30" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="25" source="5" target="3" edge="1">
+                <mxCell id="13" value="Websocket" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="25" source="5" target="3" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -71,34 +71,34 @@
                 <mxCell id="5" value="Mosquitto" style="rounded=1;whiteSpace=wrap;html=1;" parent="25" vertex="1">
                     <mxGeometry x="10" y="130" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="14" value="Grafana" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="25">
+                <mxCell id="14" value="Grafana" style="rounded=1;whiteSpace=wrap;html=1;" parent="25" vertex="1">
                     <mxGeometry x="220" y="360" width="120" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="23" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="25" source="14" target="2">
+                <mxCell id="23" value="" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="25" source="14" target="2" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="290" y="200" as="sourcePoint"/>
                         <mxPoint x="290" y="280" as="targetPoint"/>
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="26" value="Réseau externe" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" edge="1" parent="1">
+                <mxCell id="26" value="Réseau externe" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" edge="1">
                     <mxGeometry y="10" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                         <mxPoint y="90" as="sourcePoint"/>
                         <mxPoint x="120" y="90" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="28" value="Réseau interne" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" edge="1" parent="1">
+                <mxCell id="28" value="Réseau interne" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" edge="1">
                     <mxGeometry y="10" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                         <mxPoint y="110" as="sourcePoint"/>
                         <mxPoint x="120" y="110" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="29" value="Service" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="29" value="Service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry y="30" width="70" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="&lt;u&gt;Légende :&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                <mxCell id="30" value="&lt;u&gt;Légende :&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry width="80" height="30" as="geometry"/>
                 </mxCell>
             </root>

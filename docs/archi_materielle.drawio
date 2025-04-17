@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="8HhSMyb_BakoQHUVGRJk" name="Page-1">
-        <mxGraphModel dx="618" dy="692" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="756" dy="554" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -12,8 +12,8 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="13" value="HTTP" style="edgeStyle=none;html=1;dashed=1;" parent="1" source="8" target="12" edge="1">
-                    <mxGeometry x="0.0097" relative="1" as="geometry">
+                <mxCell id="13" value="MQTT" style="edgeStyle=none;html=1;dashed=1;" parent="1" source="8" target="12" edge="1">
+                    <mxGeometry x="0.013" relative="1" as="geometry">
                         <Array as="points"/>
                         <mxPoint as="offset"/>
                     </mxGeometry>
@@ -39,7 +39,7 @@
                 <mxCell id="24" value="ESP32&lt;div&gt;Actionneur&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="180" y="217.5" width="80" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="HTTP" style="edgeStyle=none;html=1;dashed=1;" parent="1" source="12" target="24" edge="1">
+                <mxCell id="25" value="MQTT" style="edgeStyle=none;html=1;dashed=1;" parent="1" source="12" target="24" edge="1">
                     <mxGeometry x="0.0007" relative="1" as="geometry">
                         <Array as="points"/>
                         <mxPoint x="266" y="70" as="sourcePoint"/>
@@ -86,7 +86,7 @@
                 <mxCell id="41" value="Client web" style="rounded=1;whiteSpace=wrap;html=1;align=center;verticalAlign=top;" parent="1" vertex="1">
                     <mxGeometry x="570" y="85" width="50" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="42" value="HTTPS" style="edgeStyle=none;html=1;dashed=1;" parent="1" source="12" target="41" edge="1">
+                <mxCell id="42" value="HTTP" style="edgeStyle=none;html=1;dashed=1;" parent="1" source="12" target="41" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points"/>
                         <mxPoint x="270" y="73" as="sourcePoint"/>
