@@ -1,0 +1,83 @@
+{
+  "manifestVersion": 2,
+  "kv": {
+    "fileName": "20250417T132723Z.bolt.gz",
+    "size": 3311,
+    "compression": 1
+  },
+  "sql": {
+    "fileName": "20250417T132723Z.sqlite.gz",
+    "size": 3447,
+    "compression": 1
+  },
+  "buckets": [
+    {
+      "organizationID": "2a3613ab01cd7da3",
+      "organizationName": "hanse-mance-mans",
+      "bucketID": "00d4f541e0f80710",
+      "bucketName": "Capteur",
+      "defaultRetentionPolicy": "autogen",
+      "retentionPolicies": [
+        {
+          "name": "autogen",
+          "replicaN": 1,
+          "duration": 0,
+          "shardGroupDuration": 604800000000000,
+          "shardGroups": [
+            {
+              "id": 1,
+              "startTime": "2025-04-14T00:00:00Z",
+              "endTime": "2025-04-21T00:00:00Z",
+              "shards": [
+                {
+                  "id": 1,
+                  "shardOwners": [],
+                  "fileName": "20250417T132723Z.1.tar.gz",
+                  "size": 27578,
+                  "compression": 1
+                }
+              ]
+            }
+          ],
+          "subscriptions": []
+        }
+      ]
+    },
+    {
+      "organizationID": "2a3613ab01cd7da3",
+      "organizationName": "hanse-mance-mans",
+      "bucketID": "0984c55091ed339d",
+      "bucketName": "_monitoring",
+      "description": "System bucket for monitoring logs",
+      "defaultRetentionPolicy": "autogen",
+      "retentionPolicies": [
+        {
+          "name": "autogen",
+          "replicaN": 1,
+          "duration": 604800000000000,
+          "shardGroupDuration": 86400000000000,
+          "shardGroups": [],
+          "subscriptions": []
+        }
+      ]
+    },
+    {
+      "organizationID": "2a3613ab01cd7da3",
+      "organizationName": "hanse-mance-mans",
+      "bucketID": "9414ab5453a05189",
+      "bucketName": "_tasks",
+      "description": "System bucket for task logs",
+      "defaultRetentionPolicy": "autogen",
+      "retentionPolicies": [
+        {
+          "name": "autogen",
+          "replicaN": 1,
+          "duration": 259200000000000,
+          "shardGroupDuration": 86400000000000,
+          "shardGroups": [],
+          "subscriptions": []
+        }
+      ]
+    }
+  ]
+}
