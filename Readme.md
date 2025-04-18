@@ -1,4 +1,4 @@
-# Projet IoT - Surveillance d’Humidité avec MQTT
+# Projet IoT - Surveillance de l'humidité et du niveau d'eau pour une irrigation connectée 
 
 > **Équipe Hanse Mance Mans**  
 > Nicolas DELAHAIE  
