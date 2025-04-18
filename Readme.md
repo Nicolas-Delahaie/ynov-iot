@@ -46,8 +46,7 @@ Les différents éléments sont les suivants :
 
 ## Installation ESP32
 
-- Le code CodeRecepteur.ino est à téléverser sur l'ESP32 relié aux capteurs.
-- Le code CodeActionneur.ino est à téléverser sur l'ESP32 relié aux LEDS.
+Les codes dans esp32/capteur et esp32/actionneur sont à téléverser et exécuter respectivement sur l'ESP32 lié aux capteurs et sur l'ESP32 lié aux actionneurs.
 
 ## Installation Raspberry Pi
 
@@ -111,19 +110,16 @@ sudo docker compose up -d --build
 
 Cela démarre le serveur en arrière-plan via Docker.
 
-### Configuration services
-
-#### Restauration backup Influxdb
+### Restauration base de données
 
 Une backup est disponible pour avoir accès aux données récupérées via MQTT.
 
 Pour l'exécuter, se déplacer dans le dossier `raspberry/`, copier le dossier de backup à la racine puis l'exécuter via :
 
 ```bash
-
 sudo docker compose cp influxdb/backup influxdb:/
-sudo docker compose exec influxdb influx restore /backup
 
+sudo docker compose exec influxdb influx restore --full /backup
 ```
 
 ## Problèmes rencontrés
