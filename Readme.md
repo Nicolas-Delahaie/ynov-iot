@@ -42,7 +42,7 @@ Les différents éléments sont les suivants :
   - 5 résistances 220Ω
 - Alimentation :
   - Pile 9V
-  - Module ...
+  - Module d'alimentation
 
 ## Installation ESP32
 
