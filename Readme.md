@@ -8,7 +8,7 @@
 
 ## Présentation du projet
 
-[Document de présentation du projet (Word)](https://auvencecom-my.sharepoint.com/:w:/g/personal/nicolas_delahaie_ynov_com/EWxNXPk6Hf5GhAFUDsCuzskBGGFIuqWOAZh5HHxPKcpJHA?e=mTtp2u)
+La présentation complète est disponible dans le document Word.
 
 Ce projet IoT utilise **un capteur DHT11** pour mesurer l’humidité et la transmet via **un ESP32** à un **broker MQTT**. Un autre **ESP32** reçoit ensuite ces données et ajuste une **LED RGB** en fonction du niveau d’humidité :
 
@@ -21,45 +21,37 @@ On utilise aussi **un capteur d'ultrasons** qui permet de mesurer une distance i
 - 🔴 **LED Rouge** : Distance > 200 cm
 - 🔵 **LED Bleue** : Distance < 200 cm
 
-### Documentation
+## Documentation
 
 Les diagrammes sont trouvables dans le dossier `docs/`. Les fichiers avec l'extension `.drawio` peuvent être ouverts via l'extension `hediet.vscode-drawio` sur VSCode.
 
-## Matériel utilisé
+## Installation matérielle
 
-[Schema de l'installation](Branchement.png)
+Les différents éléments électroniques doivent être installés de la manière suivante : [schéma du montage électronique](Branchement.png)
 
-- **Câbles et breadboard**
-- **2 ESP32**
-  - Capteurs :
-    - DHT11 (humidité et température)
-    - Capteur d'ultrasons
-  - Éclairage :
-    - 1 LED RGB (anode ou cathode commune)
-    - 1 LED rouge
-    - 1 LED bleue
-    - 5 résistances 220Ω
-  - Alimentation :
-    - Pile 9V
-    - Module ...
-- **Raspberry**
+Les différents éléments sont les suivants :
 
-## Fonctionnement
+- 2 ESP32
+- Capteurs :
+  - DHT11 (humidité et température)
+  - Capteur d'ultrasons
+- Éclairage :
+  - 1 LED RGB (anode ou cathode commune)
+  - 1 LED rouge
+  - 1 LED bleue
+  - 5 résistances 220Ω
+- Alimentation :
+  - Pile 9V
+  - Module ...
 
-### Communication entre les composants
-
-1. Une ESP32 mesure **l’humidité** et **la température** via le capteur **DHT11**.
-2. Il envoie les valeurs au **broker MQTT** présent sur le Raspberry via WiFi.
-3. Une autre ESP32 **s’abonne** aux données et active les différentes LEDS selon les valeurs.
-
-## Installation logicielle ESP32 (capteurs)
+## Installation ESP32
 
 - Le code CodeRecepteur.ino est à téléverser sur l'ESP32 relié aux capteurs.
 - Le code CodeActionneur.ino est à téléverser sur l'ESP32 relié aux LEDS.
 
-## Installation Raspberry Pi (serveur public)
+## Installation Raspberry Pi
 
-Tout le code de la Raspberry se trouve dans le dossier `/raspberry`.
+Tout le code de la Raspberry se trouve dans le dossier `raspberry/`.
 
 ### Allumage
 
@@ -97,9 +89,17 @@ Cela enregistre votre clé publique dans la Raspberry et active la connexion SSH
 
 ### Déploiement du projet
 
-Pour récupérer le code dans la Raspberry, il faut installer Git dessus via : `sudo apt install git-all`.
+Pour récupérer le code dans la Raspberry, il faut installer Git dessus via :
 
-Ensuite on doit cloner le projet avec : `git clone https://github.com/Nicolas-Delahaie/ynov-iot`.
+```bash
+sudo apt install git-all
+```
+
+Ensuite on doit cloner le projet avec :
+
+```bash
+git clone https://github.com/Nicolas-Delahaie/ynov-iot
+```
 
 ### Lancer le serveur public
 

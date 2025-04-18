@@ -17,8 +17,7 @@ services:
     image: eclipse-mosquitto:latest
     restart: unless-stopped
     ports:
-      - "1883:1883" # Port MQTT
-      - "9001:9001" # WebSockets (si besoin)
+      - "1883:1883"
     volumes:
       - ./mosquitto:/mosquitto/config
       - mosquitto_data:/mosquitto/data
