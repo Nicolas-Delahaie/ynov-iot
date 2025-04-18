@@ -48,7 +48,12 @@ Les différents éléments sont les suivants :
 
 Les codes `esp32/capteur.ino` et `esp32/actionneur.ino` sont à téléverser et exécuter respectivement sur l'ESP32 lié aux capteurs et sur l'ESP32 lié aux actionneurs.
 
-Il est possible de les téléverser manuellement avec un câble micro USB, mais également via wifi (il faut être sur le même réseau). Pour l'esp32 capteur, il faut utiliser `ESP32_SENDER_OTA`, et pour l'esp32 actionneur, il faut utiliser `ESP32_SUBSCRIBER_OTA`.
+Il est possible de les téléverser manuellement avec un câble micro USB, mais également via wifi (il faut être sur le même réseau).
+
+En wifi, il faudra sélectionner :
+
+- Capteur : `ESP32_SENDER_OTA`
+- Actionneur : `ESP32_SUBSCRIBER_OTA`.
 
 ## Installation Raspberry Pi
 
@@ -123,6 +128,10 @@ sudo docker compose cp influxdb/backup influxdb:/
 
 sudo docker compose exec influxdb influx restore --full /backup
 ```
+
+## Utilisation
+
+Les donnée sont alors disponibles sur Grafana, InfluxDB et le site web. Cahacun à sa manière
 
 ## Problèmes rencontrés
 
