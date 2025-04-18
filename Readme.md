@@ -47,6 +47,7 @@ Les différents éléments sont les suivants :
 ## Installation ESP32
 
 Les codes dans esp32/capteur et esp32/actionneur sont à téléverser et exécuter respectivement sur l'ESP32 lié aux capteurs et sur l'ESP32 lié aux actionneurs.
+Il est possible de les téléverser manuellement avec un cable Micro USB, mais également via WiFi (il faut être sur le même réseau). Pour l'esp32/capteur il faut utiliser "ESP32_SENDER_OTA", et pour l'esp32/actionneur il faut utiliser "ESP32_SUBSCRIBER_OTA".
 
 ## Installation Raspberry Pi
 
