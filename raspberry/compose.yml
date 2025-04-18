@@ -12,6 +12,8 @@ services:
       DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG}
       DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET}
       DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN}
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
 
   mosquitto:
     image: eclipse-mosquitto:latest
@@ -19,9 +21,8 @@ services:
     ports:
       - "1883:1883"
     volumes:
-      - ./mosquitto:/mosquitto/config
-      - mosquitto_data:/mosquitto/data
-      - mosquitto_log:/mosquitto/log
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-config:/mosquitto/config
     environment:
       - TZ=Europe/Paris
 
@@ -29,6 +30,7 @@ services:
     build: ./backend
     depends_on:
       - mosquitto
+      - influxdb
     ports:
       - "8080:8080"
     env_file:
@@ -39,8 +41,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./web/src:/usr/share/nginx/html:ro
-      - ./web/configs:/etc/nginx/conf.d:ro
+      - ./web:/usr/share/nginx/html:ro
     depends_on:
       - backend
 
@@ -51,6 +52,7 @@ services:
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana-data:/var/lib/grafana
     environment:
       - GF_SECURITY_ADMIN_USER=${INFLUX_USERNAME}
       - GF_SECURITY_ADMIN_PASSWORD=${INFLUX_PASSWORD}
@@ -61,6 +63,7 @@ services:
       - influxdb
 
 volumes:
-  mosquitto_config:
-  mosquitto_data:
-  mosquitto_log:
+  influxdb-data:
+  mosquitto-data:
+  mosquitto-config:
+  grafana-data:
