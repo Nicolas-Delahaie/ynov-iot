@@ -140,14 +140,3 @@ void loop() {
   // Ajout d'une petite pause pour éviter un blocage continu
   delay(100);
 }
-
-Serial.println(mqttMessagesReceived);
-Serial.print("💧 Humidité faible (<30%) : ");
-Serial.println(humidityLow);
-Serial.print("✅ Humidité normale (30-60%) : ");
-Serial.println(humidityNormal);
-Serial.print("💦 Humidité élevée (>60%) : ");
-Serial.println(humidityHigh);
-Serial.print("⏳ Dernière latence MQTT : ");
-Serial.print(lastMessageTime);
-Serial.println(" ms");
