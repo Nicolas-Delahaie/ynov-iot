@@ -21,8 +21,7 @@ services:
     ports:
       - "1883:1883"
     volumes:
-      - mosquitto-data:/mosquitto/data
-      - mosquitto-config:/mosquitto/config
+      - ./mosquitto/config:/mosquitto/config
     environment:
       - TZ=Europe/Paris
 
@@ -64,6 +63,4 @@ services:
 
 volumes:
   influxdb-data:
-  mosquitto-data:
-  mosquitto-config:
   grafana-data:
