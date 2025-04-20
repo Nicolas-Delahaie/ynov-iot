@@ -1,4 +1,4 @@
-# Projet IoT - Surveillance de l'humidité et du niveau d'eau pour une irrigation connectée 
+# Projet IoT - Surveillance de l'humidité et du niveau d'eau pour une irrigation connectée
 
 > **Équipe Hanse Mance Mans**  
 > Nicolas DELAHAIE  
@@ -129,9 +129,19 @@ sudo docker compose cp influxdb/backup influxdb:/
 sudo docker compose exec influxdb influx restore --full /backup
 ```
 
+### Émulation
+
+S'il n'y a pas d'ESP32 connecté, on peut utiliser un émulateur, qui va simuler des valeurs aléatoires. Pour l'activer, ajouter le flag `--profile emulation` avant `up`. Cela va activer le service esp32-emulator. Celui ci va envoyer des valeurs à l'infini toutes les secondes.
+
+Sinon, simplement lancer le service via
+
+```bash
+docker compose up -d --build esp32-emulator
+```
+
 ## Utilisation
 
-Les donnée sont alors disponibles sur Grafana, InfluxDB et le site web. Cahacun à sa manière
+Les données sont alors disponibles sur Grafana, InfluxDB et le site web.
 
 ## Problèmes rencontrés
 

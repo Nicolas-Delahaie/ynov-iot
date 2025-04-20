@@ -61,6 +61,13 @@ services:
     depends_on:
       - influxdb
 
+  esp32-emulator:
+    build: ./esp32-emulator
+    profiles:
+      - emulation
+    depends_on:
+      - mosquitto
+
 volumes:
   influxdb-data:
   grafana-data:
