@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="fZp3_r64NPAg18nF-zvm" name="Page-1">
-        <mxGraphModel dx="350" dy="692" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1087" dy="769" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -81,25 +81,28 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="26" value="Réseau externe" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="1" edge="1">
+                <mxCell id="31" value="" style="swimlane;startSize=0;dashed=1;dashPattern=12 12;" vertex="1" parent="1">
+                    <mxGeometry width="141" height="122" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Réseau externe" style="edgeStyle=none;html=1;dashed=1;endArrow=none;endFill=0;" parent="31" edge="1">
                     <mxGeometry y="10" relative="1" as="geometry">
                         <mxPoint as="offset"/>
-                        <mxPoint y="90" as="sourcePoint"/>
-                        <mxPoint x="120" y="90" as="targetPoint"/>
+                        <mxPoint x="11" y="92" as="sourcePoint"/>
+                        <mxPoint x="131" y="92" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="28" value="Réseau interne" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="1" edge="1">
+                <mxCell id="28" value="Réseau interne" style="edgeStyle=none;html=1;endArrow=none;endFill=0;" parent="31" edge="1">
                     <mxGeometry y="10" relative="1" as="geometry">
                         <mxPoint as="offset"/>
-                        <mxPoint y="110" as="sourcePoint"/>
-                        <mxPoint x="120" y="110" as="targetPoint"/>
+                        <mxPoint x="11" y="112" as="sourcePoint"/>
+                        <mxPoint x="131" y="112" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="29" value="Service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-                    <mxGeometry y="30" width="70" height="40" as="geometry"/>
+                <mxCell id="29" value="Service" style="rounded=1;whiteSpace=wrap;html=1;" parent="31" vertex="1">
+                    <mxGeometry x="11" y="32" width="70" height="40" as="geometry"/>
                 </mxCell>
-                <mxCell id="30" value="&lt;u&gt;Légende :&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-                    <mxGeometry width="80" height="30" as="geometry"/>
+                <mxCell id="30" value="&lt;u&gt;Légende :&lt;/u&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="31" vertex="1">
+                    <mxGeometry x="11" y="2" width="80" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
