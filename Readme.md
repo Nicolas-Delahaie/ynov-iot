@@ -143,6 +143,12 @@ docker compose up -d --build esp32-emulator
 
 Les données sont alors disponibles sur Grafana, InfluxDB et le site web.
 
+L'affichage des graphiques Grafana n'a pas pu être intégré de manière automatique pour l'instant. Ce n'est qu'un POC pour l'instant. Pour activer son affichage, il faut aller sur Grafana > Dashboard souhaité > Share ... > Share externally > Copy external link puis copier L'ID de ce lien dans le parametre d'url dashboard_id. Par exemple :
+
+1. Récupérer l'url : `http://localhost:3000/public-dashboards/1b318f9f630a4fd2b5d9b9c5aa425db1`
+2. Extraire l'id `1b318f9f630a4fd2b5d9b9c5aa425db1`
+3. Intégrer l'id dans `dashboard_id` : `https://localhost/?dashboard_id=1b318f9f630a4fd2b5d9b9c5aa425db1`.
+
 ## Problèmes rencontrés
 
 **Si un problème survient, vérifier en premier :**
