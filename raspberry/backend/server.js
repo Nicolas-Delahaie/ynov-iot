@@ -3,10 +3,21 @@ const mqtt = require("mqtt");
 const { InfluxDB, Point } = require("@influxdata/influxdb-client");
 
 // =========================
+// Importation variables d'environnement
+// =========================
+const {
+  INFLUX_URL,
+  INFLUX_TOKEN,
+  INFLUX_ORG,
+  INFLUX_BUCKET,
+  GRAFANA_URL,
+  GRAFANA_USER,
+  GRAFANA_PASSWORD,
+} = process.env;
+
+// =========================
 // Configuration InfluxDB
 // =========================
-const { INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG, INFLUX_BUCKET } = process.env;
-
 if (!INFLUX_URL || !INFLUX_TOKEN || !INFLUX_ORG || !INFLUX_BUCKET) {
   throw new Error(
     "Error : Please set INFLUX_URL, INFLUX_TOKEN, INFLUX_ORG and INFLUX_BUCKET environment variables"
@@ -124,4 +135,41 @@ process.on("SIGINT", () => {
       console.error("❗ Erreur fermeture InfluxDB :", err);
       process.exit(1);
     });
+});
+
+// =========================
+// Configuration Grafana
+// =========================
+if (!GRAFANA_URL || !GRAFANA_USER || !GRAFANA_PASSWORD) {
+  throw new Error(
+    "Error : Please set GRAFANA_URL, GRAFANA_USER and GRAFANA_PASSWORD environment variables"
+  );
+}
+
+const express = require("express");
+const app = express();
+
+app.get("/api/dashboards", async (req, res) => {
+  try {
+    const response = await fetch(`${GRAFANA_URL}/api/search`, {
+      headers: {
+        Authorization:
+          "Basic " +
+          Buffer.from(`${GRAFANA_USER}:${GRAFANA_PASSWORD}`).toString("base64"),
+      },
+    });
+
+    if (!response.ok)
+      return res.status(response.status).json({ error: "Erreur API Grafana" });
+
+    const dashboards = await response.json();
+    res.json(dashboards);
+  } catch (err) {
+    console.error("Erreur serveur backend :", err);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+app.listen(3000, () => {
+  console.log("✅ Backend en écoute sur http://localhost:3000");
 });

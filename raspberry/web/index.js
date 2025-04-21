@@ -1,15 +1,35 @@
+const host = window.location.hostname;
+const iframe = document.getElementById("grafana-iframe");
+
+// Fonction pour charger un dashboard directement dans l'iframe
+function loadDashboard(uid) {
+  iframe.src = `http://${host}:3000/public-dashboards/${uid}`;
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 const dashboardId = urlParams.get("dashboard_id");
 
-if (!dashboardId) {
-  console.error("Erreur : aucun dashboard spécifié dans l'URL");
+if (dashboardId) {
+  loadDashboard(dashboardId);
 } else {
-  const iframe = document.getElementById("grafana-iframe");
-  const dashboardUrl = `http://${window.location.hostname}:3000/public-dashboards/${dashboardId}`;
-  iframe.src = dashboardUrl;
+  fetch(`http://${host}:3001/api/dashboards`)
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(`Erreur API Backend : ${response.status}`);
+      return response.json();
+    })
+    .then((dashboards) => {
+      if (dashboards.length > 0) {
+        loadDashboard(dashboards[0].uid);
+      } else {
+        console.error("Aucun dashboard disponible.");
+      }
+    })
+    .catch(console.error);
 }
 
-const backend = new WebSocket(`ws://${window.location.hostname}:8080`);
+const backend = new WebSocket(`ws://${host}:8080`);
+
 const createCard = (topic, value, topicInformations) => {
   const { label, symbol, img } = topicInformations;
 
@@ -25,9 +45,8 @@ const createCard = (topic, value, topicInformations) => {
   topicText.textContent = label;
 
   const valueText = document.createElement("div");
-  const roundedValue = Math.round(value * 10) / 10;
   valueText.className = "value-text";
-  valueText.textContent = `${roundedValue} ${symbol}`;
+  valueText.textContent = `${Math.round(value * 10) / 10} ${symbol}`;
 
   card.appendChild(image);
   card.appendChild(topicText);
@@ -69,16 +88,14 @@ backend.onmessage = (event) => {
 
     if (card) {
       const roundedValue = Math.round(value * 10) / 10;
-      const symbol = topicInformations.symbol;
-
       card.querySelector(
         ".value-text"
-      ).textContent = `${roundedValue} ${symbol}`;
+      ).textContent = `${roundedValue} ${topicInformations.symbol}`;
     } else {
       const newCard = createCard(topic, value, topicInformations);
       document.getElementById("output").appendChild(newCard);
     }
   } catch (error) {
-    console.error("Erreur :", error);
+    console.error("Erreur WebSocket :", error);
   }
 };

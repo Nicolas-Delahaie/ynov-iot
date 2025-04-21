@@ -3,7 +3,7 @@ services:
   influxdb:
     image: influxdb:latest
     ports:
-      - "8086:8086"
+      - 8086:8086
     environment:
       INFLUXDB_DB: ${PROJECT_NAME}
       DOCKER_INFLUXDB_INIT_MODE: setup
@@ -19,7 +19,7 @@ services:
     image: eclipse-mosquitto:latest
     restart: unless-stopped
     ports:
-      - "1883:1883"
+      - 1883:1883
     volumes:
       - ./mosquitto/config:/mosquitto/config
     environment:
@@ -31,14 +31,15 @@ services:
       - mosquitto
       - influxdb
     ports:
-      - "8080:8080"
+      - 8080:8080 # For Websocket
+      - 3001:3000 # For Grafana dashboard ids
     env_file:
       - .env
 
   web:
     image: nginx:latest
     ports:
-      - "80:80"
+      - 80:80
     volumes:
       - ./web:/usr/share/nginx/html:ro
     depends_on:
@@ -47,15 +48,17 @@ services:
   grafana:
     image: grafana/grafana-oss:latest
     ports:
-      - "3000:3000"
+      - 3000:3000
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
       - ./grafana/dashboards:/var/lib/grafana/dashboards
       - grafana-data:/var/lib/grafana
     environment:
-      - GF_SECURITY_ADMIN_USER=${INFLUX_USERNAME}
-      - GF_SECURITY_ADMIN_PASSWORD=${INFLUX_PASSWORD}
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
       - GF_SECURITY_ALLOW_EMBEDDING=true # For iframe
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
     env_file:
       - .env
     depends_on:
