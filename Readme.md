@@ -58,6 +58,8 @@ En wifi, il faudra sélectionner :
 - Capteur : `ESP32_SENDER_OTA`
 - Actionneur : `ESP32_SUBSCRIBER_OTA`.
 
+Attention, les ESP32 peuvent refuser de se connecter automatiquement lorsque la pile commence à faiblire. Dans ce cas, il faut la changer.
+
 ## Installation Raspberry Pi
 
 Tout le code de la Raspberry se trouve dans le dossier `raspberry/`.
